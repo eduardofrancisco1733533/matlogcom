@@ -1,0 +1,36 @@
+<!-- Se hereda o extiende desde una plantilla base llamada "base.html" -->
+{% extends "base.html" %}
+
+<!-- Se cargan las herramientas para gestionar recursos estáticos (ej. imágenes, CSS, JS) -->
+{% load static %}
+
+<!-- Comienza el bloque de contenido que sustituirá al bloque "content" en "base.html" -->
+{% block content %}
+
+<!-- Contenedor principal que centra el contenido y le da un margen superior -->
+<div class="container mt-5">
+    
+    <!-- Fila que se utiliza para estructurar el contenido en el centro -->
+    <div class="row justify-content-center">
+        
+        <!-- Define una columna que toma la mitad del espacio en dispositivos medianos -->
+        <div class="col-md-6">
+            
+            <!-- Muestra un saludo al usuario usando el nombre proporcionado -->
+            <h2>Bienvenido, {{ username }}</h2>
+
+            <!-- Verifica si el usuario está autenticado (ha iniciado sesión) -->
+            {% if request.user.is_authenticated %}
+                
+                <!-- Si el usuario está autenticado, muestra un botón para ir a la vista de "dragDrop" -->
+                <a href="{% url 'drag_drop_view' %}" class="btn btn-primary">Test dragDrop</a>
+                
+                <!-- También proporciona un botón para cerrar sesión -->
+                <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar Sesión</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
