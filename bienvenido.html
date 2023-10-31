@@ -4,33 +4,84 @@
 <!-- Se cargan las herramientas para gestionar recursos estáticos (ej. imágenes, CSS, JS) -->
 {% load static %}
 
-<!-- Comienza el bloque de contenido que sustituirá al bloque "content" en "base.html" -->
 {% block content %}
+<!-- Estilos personalizados para la página de bienvenida -->
+<style>
+    /* Define el fondo y la fuente predeterminada para el cuerpo de la página */
+    body {
+        background-color: #e6f7ff;
+        font-family: 'Oswald', sans-serif;
+    }
 
-<!-- Contenedor principal que centra el contenido y le da un margen superior -->
+    /* Estilo para el contenedor de bienvenida */
+    .welcome-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    /* Estilo para el título de bienvenida */
+    .welcome-container h2 {
+        font-family: 'Anton', sans-serif;
+        font-size: 36px;
+    }
+
+    /* Estilo general para los botones en la página */
+    .section-btn {
+        display: block;
+        padding: 40px 30px;
+        margin: 20px 0;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-size: 20px;
+        text-align: left;
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Estilo para el estado hover de los botones */
+    .section-btn:hover {
+        background-color: #f2f2f2;
+        transform: scale(1.05);
+        color: black;
+    }
+
+    /* Estilos específicos para diferentes colores de botones */
+    .btn-primary {
+        background-color: #007BFF;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+</style>
+
+<!-- Contenedor principal de la página -->
 <div class="container mt-5">
-    
-    <!-- Fila que se utiliza para estructurar el contenido en el centro -->
     <div class="row justify-content-center">
-        
-        <!-- Define una columna que toma la mitad del espacio en dispositivos medianos -->
-        <div class="col-md-6">
-            
-            <!-- Muestra un saludo al usuario usando el nombre proporcionado -->
-            <h2>Bienvenido, {{ username }}</h2>
-
-            <!-- Verifica si el usuario está autenticado (ha iniciado sesión) -->
-            {% if request.user.is_authenticated %}
-                
-                <!-- Si el usuario está autenticado, muestra un botón para ir a la vista de "dragDrop" -->
-                <a href="{% url 'drag_drop_view' %}" class="btn btn-primary">Test dragDrop</a>
-                
-                <!-- También proporciona un botón para cerrar sesión -->
-                <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar Sesión</a>
-            {% endif %}
+        <div class="col-md-10">
+            <!-- Contenedor de bienvenida con el mensaje y opciones para el usuario -->
+            <div class="welcome-container">
+                <!-- Saludo personalizado al usuario -->
+                <h2>Bienvenido, {{ username }}</h2>
+                <!-- Instrucción para el usuario -->
+                <p>Elige una de las siguientes opciones para continuar:</p>
+                <!-- Se verifica si el usuario está autenticado para mostrar las opciones correspondientes -->
+                {% if request.user.is_authenticated %}
+                    <!-- Opción para probar la funcionalidad dragDrop -->
+                    <a href="{% url 'drag_drop_view' %}" class="section-btn btn-primary">Test dragDrop</a>
+                    <!-- Opción para ir al perfil del usuario -->
+                    <a href="{% url 'profile' %}" class="section-btn btn-secondary">Ir a mi Perfil</a>
+                    <!-- Opción para cerrar la sesión del usuario -->
+                    <a href="{% url 'logout' %}" class="section-btn btn-danger">Cerrar Sesión</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
-

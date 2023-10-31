@@ -1,14 +1,14 @@
-<!-- Hereda de una plantilla base llamada "base.html" -->
+{# Hereda de una plantilla base llamada "base.html" #}
 {% extends "base.html" %}
 
-<!-- Herramientas para gestionar recursos estáticos y ajustes en los widgets -->
+{# Herramientas para gestionar recursos estáticos y ajustes en los widgets #}
 {% load static %}
 {% load widget_tweaks %}
 
-<!-- Inicio del bloque de contenido -->
+{# Inicio del bloque de contenido #}
 {% block content %}
 
-<!-- Estilos específicos para la página de registro -->
+{# Estilos específicos para la página de registro #}
 <style>
     /* Color de fondo de la página completa */
     body {
@@ -20,14 +20,14 @@
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px; 
+        padding: 30px; /* Aumentar el padding para dar más espacio */
     }
 
     /* Estilo del botón principal para enviar el formulario */
     .btn-primary {
         background-color: #007BFF;
         border: none;
-        margin-top: 20px;
+        margin-top: 20px; /* Añadir margen superior para separarlo del último input */
     }
     .btn-primary:hover {
         background-color: #0056b3;
@@ -60,48 +60,64 @@
     <div class="row justify-content-center">
         <div class="col-md-6 register-container">
 
-            <!-- Título del formulario de registro -->
+            {# Título del formulario de registro #}
             <h2 class="mb-4 text-center">Registro</h2>
 
-            <!-- Formulario de registro -->
+            {# Formulario de registro #}
             <form method="post">
-                {% csrf_token %}  <!-- Token de seguridad para prevenir ataques CSRF -->
+                {% csrf_token %}  {# Token de seguridad para prevenir ataques CSRF #}
 
-                <!-- Campo de correo electrónico con su etiqueta, widget y mensaje de error si lo hay -->
+                {# Campo de correo electrónico con su etiqueta, widget y mensaje de error si lo hay #}
                 <label for="{{ form.email.id_for_label }}">Correo electrónico:</label>
                 {{ form.email|add_class:"form-control mb-3" }}
                 {% if form.email.errors %}
                     <div class="text-danger">{{ form.email.errors.0 }}</div>
                 {% endif %}
                 <small class="text-muted">Debes usar un correo con dominio outlook.com, gmail.com o hotmail.com.</small>
-                
-                <!-- Campo de nombre de usuario con su etiqueta, widget y mensaje de error si lo hay -->
+
+                {# Campo de nombre de usuario con su etiqueta, widget y mensaje de error si lo hay #}
                 <label for="{{ form.username.id_for_label }}">Nombre de usuario:</label>
                 {{ form.username|add_class:"form-control mb-3" }}
                 {% if form.username.errors %}
                     <div class="text-danger">{{ form.username.errors.0 }}</div>
                 {% endif %}
-                
-                <!-- Campo de contraseña con su etiqueta, widget y mensaje de error si lo hay -->
+
+                {# Campo de contraseña con su etiqueta, widget y mensaje de error si lo hay #}
                 <label for="{{ form.password1.id_for_label }}">Contraseña:</label>
                 {{ form.password1|add_class:"form-control mb-3" }}
                 {% if form.password1.errors %}
                     <div class="text-danger">{{ form.password1.errors.0 }}</div>
                 {% endif %}
                 <small class="text-muted">Mínimo 6 caracteres, al menos 1 mayúscula, 2 números y 1 caracter especial.</small>
-                
-                <!-- Campo de confirmación de contraseña con su etiqueta, widget y mensaje de error si lo hay -->
+
+                {# Campo de confirmación de contraseña con su etiqueta, widget y mensaje de error si lo hay #}
                 <label for="{{ form.password2.id_for_label }}">Confirmar contraseña:</label>
                 {{ form.password2|add_class:"form-control mb-3" }}
                 {% if form.password2.errors %}
                     <div class="text-danger">{{ form.password2.errors.0 }}</div>
                 {% endif %}
-                
-                <!-- Botón de envío del formulario -->
+
+                {# Campo de selección de rol (Profesor o Estudiante) #}
+                <label>¿Eres profesor o estudiante?</label>
+                {# Generación dinámica de botones de opción basados en las opciones disponibles para el campo "role" #}
+                {% for choice in form.role.field.choices %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ form.role.name }}" id="role_{{ choice.0 }}" value="{{ choice.0 }}" {% if form.role.value == choice.0 %}checked{% endif %}>
+                        <label class="form-check-label" for="role_{{ choice.0 }}">
+                            {{ choice.1 }}
+                        </label>
+                    </div>
+                {% endfor %}
+                {# Mensaje de error para el campo de rol si lo hay #}
+                {% if form.role.errors %}
+                    <div class="text-danger">{{ form.role.errors.0 }}</div>
+                {% endif %}
+
+                {# Botón de envío del formulario #}
                 <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
 
-            <!-- Enlace a la página de inicio de sesión si el usuario ya tiene una cuenta -->
+            {# Enlace a la página de inicio de sesión si el usuario ya tiene una cuenta #}
             <div class="mt-3 text-center">
                 ¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a>
             </div>

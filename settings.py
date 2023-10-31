@@ -108,3 +108,7 @@ STATIC_URL = 'static/'
 
 # Define el tipo de campo por defecto para los campos clave primaria en los modelos.
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# MEDIA_URL define la URL base para archivos multimedia; MEDIA_ROOT especifica dónde se almacenan físicamente esos archivos en el servidor.
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

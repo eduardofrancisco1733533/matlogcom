@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Estilos generales para la página de perfil */
+
+    /* Cambia el color de fondo y establece la fuente por defecto para todo el cuerpo de la página */
+    body {
+        background-color: #e6f7ff;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    /* Estilo para el contenedor principal que incluye sombra y bordes redondeados */
+    .container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    /* Personaliza los títulos h2 con una fuente específica y un margen inferior */
+    h2 {
+        font-family: 'Anton', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    /* Personalización de botones principales con colores y bordes */
+    .btn-primary {
+        background-color: #007BFF;
+        border: none;
+        margin-top: 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Estilos para enlaces para mantener una coherencia con los colores del botón */
+    a {
+        color: #007BFF;
+    }
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    /* Mejoras visuales para los campos del formulario */
+    .form-control {
+        border-radius: 5px;
+        box-shadow: none;
+    }
+
+    .form-control:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+    }
+
+    /* Estilo para el icono de usuario que aparece en la parte superior de la página de perfil */
+    img.img-thumbnail {
+        border: 2px solid #007BFF;
+        border-radius: 50%;
+        margin-top: 10px;
+        max-width: 150px;
+    }
+
+    /* Estilos para mostrar detalles del usuario en una fila */
+    .user-details {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+    .user-detail {
+        flex: 1;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Estilos para alinear el botón del formulario con el campo del formulario */
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    form button {
+        margin-left: 10px;
+    }
+</style>
+
+<!-- Contenedor principal para la información del perfil del usuario -->
+<div class="container">
+    <!-- Sección del icono del usuario -->
+    <div class="user-icon">
+        <!-- Si el usuario tiene un icono de perfil, se muestra, de lo contrario, se muestra un mensaje -->
+        {% if request.user.profile_icon %}
+            <img src="{{ request.user.profile_icon.url }}" alt="Icono" class="img-thumbnail">
+        {% else %}
+            <p>No has asignado un icono de perfil.</p>
+        {% endif %}
+    </div>
+
+    <!-- Muestra el nombre de usuario -->
+    <h2>{{ request.user.username }}</h2>
+
+    <!-- Formulario para que el usuario actualice su icono de perfil -->
+    <form method="post" class="update-form">
+        {% csrf_token %} <!-- Token para proteger contra ataques CSRF -->
+        {{ form.profile_icon.label_tag }} <!-- Etiqueta para el campo de icono -->
+        {{ form.profile_icon }} <!-- Campo para subir el nuevo icono -->
+        <button type="submit" class="btn btn-primary">Cambiar</button> <!-- Botón para enviar el formulario -->
+    </form>
+
+    <!-- Sección para mostrar otros detalles del usuario -->
+    <div class="mt-4 user-details">
+        <!-- Detalle de puntos del usuario -->
+        <div class="user-detail">
+            <strong>Puntos:</strong> {{ request.user.points }}
+        </div>
+        <!-- Detalle de la clase del usuario -->
+        <div class="user-detail">
+            <strong>Clase:</strong> {{ request.user.user_class }}
+        </div>
+    </div>
+</div>
+{% endblock %}

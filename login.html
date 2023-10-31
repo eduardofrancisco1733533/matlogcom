@@ -1,85 +1,92 @@
-<!-- Hereda de una plantilla base llamada "base.html" -->
+<!-- Extendemos una plantilla base llamada "base.html" -->
 {% extends "base.html" %}
 
-<!-- Herramientas para gestionar recursos estáticos (ej. imágenes, CSS, JS) -->
+<!-- Cargamos herramientas para gestionar recursos estáticos como imágenes, CSS y JS -->
 {% load static %}
 
-<!-- Inicio del bloque de contenido -->
+<!-- Iniciamos el bloque de contenido que será insertado en la plantilla base -->
 {% block content %}
 
-<!-- Estilos específicos para esta página -->
 <style>
-    /* Configura el color de fondo del cuerpo de la página */
+    /* Estilos generales con la fuente Oswald para una apariencia más moderna y legible */
     body {
-        background-color: #e6f7ff;
+        background-color: #e6f7ff;  /* Color de fondo suave para no cansar la vista */
+        font-family: 'Oswald', sans-serif;  /* Fuente principal de la página */
     }
 
-    /* Estilo para el contenedor de inicio de sesión */
+    /* Estilo específico para el título para darle un toque distintivo y llamativo */
+    h2 {
+        font-family: 'Anton', sans-serif;  /* Fuente distintiva para títulos */
+        margin-bottom: 20px;  /* Espaciado inferior para separarlo de los siguientes elementos */
+    }
+
+    /* Estilo del contenedor principal del formulario para que resalte sobre el fondo */
     .login-container {
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
-        padding: 20px;
+        background-color: #ffffff;  /* Color de fondo blanco para contrastar con el fondo de la página */
+        border-radius: 10px;  /* Esquinas redondeadas para un diseño suave */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave para darle profundidad al contenedor */
+        padding: 20px;  /* Espaciado interno para no apretar los elementos internos contra los bordes */
     }
 
-    /* Estilo para el botón principal */
+    /* Estilo para el botón principal para destacarlo como la acción principal */
     .btn-primary {
-        background-color: #007BFF;
-        border: none;
+        background-color: #007BFF;  /* Color azul distintivo para acciones primarias */
+        border: none;  /* Sin bordes para un diseño limpio */
     }
+    /* Estilo cuando el cursor pasa sobre el botón principal para indicar interactividad */
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #0056b3;  /* Un azul más oscuro para el efecto hover */
     }
 
-    /* Estilo para un botón personalizado */
+    /* Estilo para un botón alternativo */
     .btn-custom {
-        background-color: #33C3F0;
-        color: white;
-        border: none;
+        background-color: #33C3F0;  /* Color turquesa para diferenciarlo del botón principal */
+        color: white;  /* Texto en blanco para contrastar con el fondo turquesa */
+        border: none;  /* Sin bordes para mantener la consistencia con el diseño de botones */
     }
+    /* Estilo cuando el cursor pasa sobre el botón alternativo */
     .btn-custom:hover {
-        background-color: #29a3d3;
+        background-color: #29a3d3;  /* Un turquesa más oscuro para el efecto hover */
     }
 
-    /* Estilos para los enlaces (links) */
+    /* Estilos generales para los enlaces para mantener la coherencia con el diseño del botón principal */
     a {
-        color: #007BFF;
+        color: #007BFF;  /* Mismo azul que el botón principal */
     }
+    /* Estilo cuando el cursor pasa sobre los enlaces para indicar interactividad */
     a:hover {
-        color: #0056b3;
-        text-decoration: underline;  /* Subraya el enlace al pasar el cursor */
+        color: #0056b3;  /* Un azul más oscuro para el efecto hover */
+        text-decoration: underline;  /* Se subraya para reforzar que es un enlace interactivo */
     }
 </style>
 
-<!-- Contenedor principal -->
+<!-- Contenedor principal centrado horizontalmente -->
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 login-container">
-
-            <!-- Título de la sección de inicio de sesión -->
-            <h2 class="mb-4">Iniciar Sesión</h2>
-
-            <!-- Formulario de inicio de sesión -->
+            <!-- Título del formulario -->
+            <h2>Iniciar Sesión</h2>
+            <!-- Formulario de inicio de sesión con método POST para enviar datos al servidor -->
             <form method="post">
                 {% csrf_token %}  <!-- Token de seguridad para prevenir ataques CSRF -->
 
-                <!-- Campo para introducir el correo electrónico -->
+                <!-- Campo para introducir el correo electrónico del usuario -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
                     <input type="email" class="form-control" id="email" name="email" required>
                 </div>
 
-                <!-- Campo para introducir la contraseña -->
+                <!-- Campo para introducir la contraseña del usuario -->
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
 
-                <!-- Botones para enviar el formulario o continuar como invitado -->
+                <!-- Botones para enviar el formulario o para continuar como invitado -->
                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 <a href="{% url 'bienvenido_invitado' %}" class="btn btn-custom">Continuar como invitado</a>
 
-                <!-- Enlace para registrarse si el usuario aún no tiene cuenta -->
+                <!-- Enlace para que nuevos usuarios puedan registrarse -->
                 <div class="mt-3">
                     ¿No tienes una cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a>
                 </div>
@@ -88,5 +95,4 @@
     </div>
 </div>
 
-{% endblock %}
-
+{% endblock %} 
