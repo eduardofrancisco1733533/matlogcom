@@ -48,7 +48,23 @@ urlpatterns = [
 
     # Ruta para ver detalles de un salón o clase específico
     path('detalleSalon/<int:salon_id>/', views.detalle_salon, name='detalle_salon'),
+
+      # Ruta para ver y lostar las listas de ecuaciones a resolver
+    path('listar_ecuaciones/', views.listar_ecuaciones, name='listar_ecuaciones'),
+
+      # Ruta para ver el nombre delsalon asignado al alumno
+    path('salon/<int:salon_id>/crear_actividad/', views.crear_actividad, name='crear_actividad'),
+
+      # Ruta que sirve para que el estudiante pueda ver las actividades de ecuaciones qe va a realizar
+    path('actividades_estudiante/', views.actividades_estudiante, name='actividades_estudiante'),
+
+      # Ruta para agegar puntos manuelamente
+    path('agregar_puntos/<str:username>/', views.agregar_puntos, name='agregar_puntos'),
+
+     # Ruta para quitar puntos manualmente
+    path('quitar_puntos/<str:username>/', views.quitar_puntos, name='quitaar_puntos'),
 ]
+
 
 # Si estamos en modo de desarrollo (DEBUG = True), se configuran las URLs para servir archivos multimedia
 if settings.DEBUG:

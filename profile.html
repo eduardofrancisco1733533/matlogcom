@@ -3,128 +3,154 @@
 
 {% block content %}
 <style>
-    /* Estilos generales para la página de perfil */
+    /* Estilos para fondos dinámicos basados en los puntos del usuario */
+    .background-dinamico {
+        /* Fondo por defecto si no se cumple ninguna condición de rango */
+        background: url('{{ MEDIA_URL }}images/default_background.jpg') no-repeat center center fixed;
+        background-size: cover;
+    }
+    /* Estilos de fondo específicos para cada rango de usuario */
+    .rango-maestro, .rango-experto, .rango-competente, .rango-novato, .rango-principiante {
+        background-size: cover; /* Asegura que el fondo cubra toda la pantalla */
+    }
 
-    /* Cambia el color de fondo y establece la fuente por defecto para todo el cuerpo de la página */
+    /* Resto de estilos para la página de perfil del usuario */
     body {
-        background-color: #e6f7ff;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'Oswald', sans-serif; /* Establece Oswald como la fuente por defecto */
     }
 
-    /* Estilo para el contenedor principal que incluye sombra y bordes redondeados */
     .container {
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin-top: 30px;
-        text-align: center;
+        background-color: #a79854; /* Color de fondo del contenedor */
+        border-radius: 10px; /* Bordes redondeados del contenedor */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+        padding: 30px; /* Espaciado interno del contenedor */
+        margin-top: 30px; /* Espacio entre el contenedor y otros elementos */
+        text-align: center; /* Alineación central del texto */
     }
 
-    /* Personaliza los títulos h2 con una fuente específica y un margen inferior */
     h2 {
-        font-family: 'Anton', sans-serif;
-        margin-bottom: 20px;
+        font-family: 'Anton', sans-serif; /* Fuente Anton para títulos */
+        margin-bottom: 20px; /* Espacio debajo de los títulos */
     }
 
-    /* Personalización de botones principales con colores y bordes */
+    /* Estilos para botones y enlaces */
     .btn-primary {
-        background-color: #007BFF;
-        border: none;
-        margin-top: 20px;
+        background-color: #007BFF; /* Color del botón */
+        border: none; /* Sin bordes para un estilo limpio */
+        margin-top: 20px; /* Espacio por encima del botón */
     }
-
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #0056b3; /* Color del botón al pasar el ratón por encima */
     }
-
-    /* Estilos para enlaces para mantener una coherencia con los colores del botón */
     a {
-        color: #007BFF;
+        color: #007BFF; /* Color de los enlaces */
     }
-
     a:hover {
-        color: #0056b3;
-        text-decoration: underline;
+        color: #0056b3; /* Color de los enlaces al pasar el ratón por encima */
+        text-decoration: underline; /* Subrayado para indicar interactividad */
     }
 
-    /* Mejoras visuales para los campos del formulario */
+    /* Estilos para formularios y elementos de formulario */
     .form-control {
-        border-radius: 5px;
-        box-shadow: none;
+        border-radius: 5px; /* Bordes redondeados de los campos de formulario */
+        box-shadow: none; /* Sin sombra para un estilo limpio */
     }
-
     .form-control:focus {
-        border-color: #007BFF;
-        box-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+        border-color: #007BFF; /* Color del borde al enfocar un campo */
+        box-shadow: 0 0 5px rgba(0, 128, 255, 0.5); /* Sombra al enfocar un campo */
     }
 
-    /* Estilo para el icono de usuario que aparece en la parte superior de la página de perfil */
+    /* Estilos para la imagen de perfil del usuario */
     img.img-thumbnail {
-        border: 2px solid #007BFF;
-        border-radius: 50%;
-        margin-top: 10px;
-        max-width: 150px;
+        border: 2px solid #007BFF; /* Borde del thumbnail */
+        border-radius: 50%; /* Thumbnail redondo */
+        margin-top: 10px; /* Espacio por encima del thumbnail */
+        max-width: 150px; /* Tamaño máximo del thumbnail */
     }
 
-    /* Estilos para mostrar detalles del usuario en una fila */
+    /* Estilos para detalles del usuario */
     .user-details {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 30px;
+        display: flex; /* Flexbox para alinear elementos */
+        justify-content: space-between; /* Espaciado entre elementos */
+        margin-top: 30px; /* Espacio por encima de los detalles */
     }
 
     .user-detail {
-        flex: 1;
-        font-size: 18px;
-        text-align: center;
+        flex: 1; /* Cada detalle ocupa el mismo espacio */
+        font-size: 18px; /* Tamaño del texto de los detalles */
+        text-align: center; /* Alineación central del texto de los detalles */
     }
 
-    /* Estilos para alinear el botón del formulario con el campo del formulario */
+    /* Estilos para alinear el botón con el campo del formulario */
     form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; /* Flexbox para alinear elementos horizontalmente */
+        align-items: center; /* Alineación vertical de los elementos del formulario */
+        justify-content: center; /* Centrado de los elementos del formulario */
     }
 
     form button {
-        margin-left: 10px;
+        margin-left: 10px; /* Espacio a la izquierda del botón */
     }
 </style>
 
-<!-- Contenedor principal para la información del perfil del usuario -->
-<div class="container">
-    <!-- Sección del icono del usuario -->
-    <div class="user-icon">
-        <!-- Si el usuario tiene un icono de perfil, se muestra, de lo contrario, se muestra un mensaje -->
-        {% if request.user.profile_icon %}
-            <img src="{{ request.user.profile_icon.url }}" alt="Icono" class="img-thumbnail">
-        {% else %}
-            <p>No has asignado un icono de perfil.</p>
-        {% endif %}
-    </div>
-
-    <!-- Muestra el nombre de usuario -->
-    <h2>{{ request.user.username }}</h2>
-
-    <!-- Formulario para que el usuario actualice su icono de perfil -->
-    <form method="post" class="update-form">
-        {% csrf_token %} <!-- Token para proteger contra ataques CSRF -->
-        {{ form.profile_icon.label_tag }} <!-- Etiqueta para el campo de icono -->
-        {{ form.profile_icon }} <!-- Campo para subir el nuevo icono -->
-        <button type="submit" class="btn btn-primary">Cambiar</button> <!-- Botón para enviar el formulario -->
-    </form>
-
-    <!-- Sección para mostrar otros detalles del usuario -->
-    <div class="mt-4 user-details">
-        <!-- Detalle de puntos del usuario -->
-        <div class="user-detail">
-            <strong>Puntos:</strong> {{ request.user.points }}
+<!-- Uso de la variable puntos para determinar el estilo de fondo -->
+{% with puntos=request.user.points %}
+<div class="background-dinamico 
+    {% if puntos >= 1000 %}rango-maestro
+    {% elif puntos >= 500 %}rango-experto
+    {% elif puntos >= 250 %}rango-competente
+    {% elif puntos >= 100 %}rango-novato
+    {% else %}rango-principiante{% endif %}">
+    <div class="container">
+        <!-- Icono y nombre del usuario -->
+        <div class="user-icon">
+            {% if request.user.profile_icon %}
+                <img src="{{ request.user.profile_icon.url }}" alt="Icono" class="img-thumbnail">
+            {% else %}
+                <p>No has asignado un icono de perfil.</p>
+            {% endif %}
         </div>
-        <!-- Detalle de la clase del usuario -->
-        <div class="user-detail">
-            <strong>Clase:</strong> {{ request.user.user_class }}
+        <h2>{{ request.user.username }}</h2>
+
+        <!-- Formulario para cambiar el icono de perfil -->
+        <form method="post" class="update-form">
+            {% csrf_token %}
+            {{ form.profile_icon.label_tag }}
+            {{ form.profile_icon }}
+            <button type="submit" class="btn btn-primary">Cambiar</button>
+        </form>
+
+        <!-- Detalles del usuario como puntos y rango -->
+        <div class="mt-4 user-details">
+            <div class="user-detail">
+                <strong>Puntos:</strong> {{ request.user.points }}
+            </div>
+            <div class="user-detail">
+                <strong>Rango:</strong> 
+                <!-- Condicionales para mostrar el rango basado en los puntos -->
+                {% if puntos >= 1000 %}
+                    Maestro
+                {% elif puntos >= 500 %}
+                    Experto
+                {% elif puntos >= 250 %}
+                    Competente
+                {% elif puntos >= 100 %}
+                    Novato
+                {% else %}
+                    Principiante
+                {% endif %}
+            </div>
+            <!-- Lista de clases asignadas al usuario -->
+            <strong>Clases Asignadas:</strong>
+            <ul>
+                {% for salon in clases_asignadas %}
+                    <li>{{ salon.nombre }}</li>
+                {% empty %}
+                    <li>No estás asignado a ninguna clase.</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
+{% endwith %}
 {% endblock %}
